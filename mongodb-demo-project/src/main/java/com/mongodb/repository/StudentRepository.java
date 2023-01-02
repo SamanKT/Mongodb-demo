@@ -15,11 +15,11 @@ public interface StudentRepository extends MongoRepository<Student, Integer> {
 	
 	//List<Student> findByAgeBetween(int min, int max); // this is a supported query method for more info: https://docs.spring.io/spring-data/mongodb/docs/1.2.0.RELEASE/reference/html/mongo.repositories.html
 
-	@Query(value = "{'id': {$gt: ?0, $lt: ?1} }"
+	@Query(value = "{'age': {$gt: ?0, $lt: ?1} }"
 			// ?0: the first passed parameter of the method   $gt: grater than   $lt: less than
             // more info: https://www.baeldung.com/queries-in-spring-data-mongodb
-			, fields = "{hobbies:0}"   //0: means no include    1: include in the return
+			, fields = "{hobbies:0}"  //0: means no include    1: include in the return
 			)    
-	List<Student> findByAgeBetweenCustom(int min, int max);
+	List<Student> findByAgeBetweenCustom(Integer min, Integer max);
 	
 }

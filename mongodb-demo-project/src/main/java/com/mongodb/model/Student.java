@@ -5,17 +5,19 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Document(collection = "student")
 @JsonInclude(value = Include.NON_NULL)
+@JsonFilter("myFilter")  // add dynamic filter which is defined at {@link StudentController}
 public class Student {
 
 	@Id
 	private int id;
 	
-	private int age;
+	private Integer age;
 	
 	private String name;
 	
@@ -26,11 +28,11 @@ public class Student {
 	public Student() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.mongodb.model.Photo;
 import com.mongodb.model.Student;
 import com.mongodb.service.StudentService;
@@ -52,7 +56,13 @@ public class StudentController {
 	@GetMapping("/age")
 	public ResponseEntity<Object> getByAge(@RequestParam("min") int min, @RequestParam("max") int max) {
 
-		return new ResponseEntity<Object>(service.getByIdIntervals(min, max), HttpStatus.OK);
+		MappingJacksonValue jacksonValue  = new MappingJacksonValue(service.getByIdIntervals(min, max));
+		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("id","name","age");
+		FilterProvider filterProvider = new SimpleFilterProvider().addFilter("myFilter", filter);
+		jacksonValue.setFilters(filterProvider);
+		
+				
+		return new ResponseEntity<Object>(jacksonValue, HttpStatus.OK);
 	}
 	
 	@GetMapping("/all")

@@ -15,6 +15,7 @@ public class Student {
 	@Id
 	private int id;
 	
+	private int age;
 	
 	private String name;
 	
@@ -55,6 +56,14 @@ public class Student {
 
 	public void setHobbies(List<String> hobbies) {
 		this.hobbies = hobbies;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 	
 	

@@ -3,6 +3,7 @@ package com.mongodb.service;
 
 import java.util.List;
 
+import org.bson.Document;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,8 +18,12 @@ public interface StudentService {
 
 	void delete(int id);
 
-	List<Student> getByIdIntervals(int minAge, int maxAge);
+	List<Student> getByIdIntervals(int min, int max);
 
 	Page<Student> getAllBySearch(Integer id, String name, String address, String hobby, Pageable pageable);
+
+	List<Document> getOldestByAddress();
+
+	List<Document> getAggregateByAddressPopulation();
 	
 }

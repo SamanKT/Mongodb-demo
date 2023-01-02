@@ -2,6 +2,7 @@ package com.mongodb.controller;
 
 import java.util.List;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.model.Photo;
 import com.mongodb.model.Student;
 import com.mongodb.service.StudentService;
 
@@ -66,5 +69,22 @@ public class StudentController {
 		return new ResponseEntity<Page<Student>>(service.getAllBySearch(id,name,address,hobby,pageable), HttpStatus.OK);
 		
 	}
+	
+	@GetMapping("/get-oldest")
+	public ResponseEntity<List<Document>> aggregateGetOldestByAddress(){	// document package should be org.bson
+		
+		return new ResponseEntity<List<Document>>(service.getOldestByAddress(), HttpStatus.OK);
+	}
 
+	
+	@GetMapping("/get-population")
+	public ResponseEntity<Object> aggregateGetByAddressPopulation() {
+		
+		List<Document> documents = service.getAggregateByAddressPopulation();
+		
+		return new ResponseEntity<Object>(documents, HttpStatus.OK);
+	}
+	
+	
+	
 }
